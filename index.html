@@ -1,0 +1,43 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+function getCard() {
+  var set = $("#sets").val()
+  $.ajax({
+    url: `https://api.scryfall.com/cards/random?q=set:${set}+game:paper`,
+    success: function(result) {
+      console.log(result.image_uris)
+      $("#card").empty()
+      $("#card").append(
+        `<img src="${result.image_uris.normal}"></img>`
+      )
+    }
+  });
+}
+$(document).ready(function() {
+  $.ajax({
+    url: `https://api.scryfall.com/sets`,
+    success: function(result) {
+      for (let i = 0; i < result.data.length; i++) {
+        let set = result.data[i];
+        if (set.set_type === "expansion") {
+          $("#sets").append(
+            `<option value="${set.code}">${set.name}</option>`
+          )
+        }
+      }
+    }
+  })
+});
+</script>
+</head>
+<body>
+<button onclick="getCard()">Random</button>
+<select id="sets">
+</select>
+<br>
+<div id="card">
+</div>
+</body>
+</html>
