@@ -32,6 +32,13 @@ function getCubeCobraCard() {
   });
 }
 $(document).ready(function() {
+  if($(window).width()<768){
+    $("select").removeClass("w-25");
+    $("input").removeClass("w-25");
+  } else {
+    $("select").addClass("w-25");
+    $("input").addClass("w-25");
+  }
   $.ajax({
     url: `https://api.scryfall.com/sets`,
     success: function(result) {
