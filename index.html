@@ -5,7 +5,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 function getCard() {
-  var set = $("#sets").val()
+  let set = $("#sets").val()
   $.ajax({
     url: `https://api.scryfall.com/cards/random?q=set:${set}+game:paper`,
     success: function(result) {
@@ -13,6 +13,20 @@ function getCard() {
       $("#card").empty()
       $("#card").append(
         `<img src="${result.image_uris.normal}"></img>`
+      )
+    }
+  });
+}
+function getCubeCobraCard() {
+  let cube = $("#cube").val()
+  $.ajax({
+    url: `https://cubecobra.com/cube/api/cubeJSON/${cube}`,
+    success: function(result) {
+      card = result.cards.mainboard[Math.floor(Math.random() * result.cards.mainboard.length)]
+      console.log(card)
+      $("#card").empty()
+      $("#card").append(
+        `<img src="${card.details.image_normal}"></img>`
       )
     }
   });
@@ -38,8 +52,13 @@ $(document).ready(function() {
 <div id="card">
 </div>
 <br>
-<select id="sets">
+<label for="sets">Set Name</label>
+<select id="sets" class="form-control w-25">
 </select>
 <button class="btn btn-primary" onclick="getCard()">Random</button>
+<br>
+<label for="cube">CubeCobra Id</label>
+<input type="text" id="cube" class="form-control w-25"/>
+<button class="btn btn-primary" onclick="getCubeCobraCard()">Cube Cobra Random</button>
 </body>
 </html>
