@@ -43,6 +43,13 @@ $(document).ready(function() {
           )
         }
       }
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get("set")) {
+        $("#sets").val(urlParams.get("set"))
+      }
+      if (urlParams.get("cube")) {
+        $("#cube").val(urlParams.get("cube"))
+      }
     }
   })
 });
