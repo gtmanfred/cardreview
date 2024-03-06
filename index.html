@@ -2,6 +2,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/underscore@1.13.6/underscore-umd-min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 function getCard() {
@@ -23,7 +24,6 @@ function getCubeCobraCard() {
     url: `https://cubecobra.com/cube/api/cubeJSON/${cube}`,
     success: function(result) {
       card = result.cards.mainboard[Math.floor(Math.random() * result.cards.mainboard.length)]
-      console.log(card)
       $("#card").empty()
       $("#card").append(
         `<img src="${card.details.image_normal}"></img>`
@@ -31,10 +31,27 @@ function getCubeCobraCard() {
     }
   });
 }
+function getCubeCobraPack() {
+  let cube = $("#cube").val()
+  const width = $(window).width()<768 ? "100vw" : "20vw"
+  $.ajax({
+    url: `https://cubecobra.com/cube/api/cubeJSON/${cube}`,
+    success: function(result) {
+      cards = _.sample(result.cards.mainboard, 15)
+      $("#card").empty()
+      cards.forEach((card) => {
+        $("#card").append(
+          `<img style="width:${width}" src="${card.details.image_normal}" class="img-fluid"></img>`
+        )
+      });
+    }
+  });
+}
 $(document).ready(function() {
   if($(window).width()<768){
     $("select").removeClass("w-25");
     $("input").removeClass("w-25");
+    $("img").addClass("w-20");
   } else {
     $("select").addClass("w-25");
     $("input").addClass("w-25");
@@ -73,6 +90,7 @@ $(document).ready(function() {
 <br>
 <label for="cube">CubeCobra Id</label>
 <input type="text" id="cube" class="form-control w-25"/>
-<button class="btn btn-primary" onclick="getCubeCobraCard()">Cube Cobra Random</button>
+<button class="btn btn-primary" onclick="getCubeCobraCard()">Cube Cobra Random Card</button>
+<button class="btn btn-primary" onclick="getCubeCobraPack()">Cube Cobra Random Pack</button>
 </body>
 </html>
