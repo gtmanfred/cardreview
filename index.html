@@ -33,7 +33,7 @@ function getCubeCobraCard() {
 }
 function getCubeCobraPack() {
   let cube = $("#cube").val()
-  const width = $(window).width()<768 ? "100vw" : "20vw"
+  const width = $(window).width()<768 ? "100vw" : "19vw"
   $.ajax({
     url: `https://cubecobra.com/cube/api/cubeJSON/${cube}`,
     success: function(result) {
