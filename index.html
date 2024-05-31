@@ -61,7 +61,7 @@ $(document).ready(function() {
     success: function(result) {
       for (let i = 0; i < result.data.length; i++) {
         let set = result.data[i];
-        if (set.set_type === "expansion") {
+        if (["expansion", "draft_innovation"].includes(set.set_type)) {
           $("#sets").append(
             `<option value="${set.code}">${set.name}</option>`
           )
